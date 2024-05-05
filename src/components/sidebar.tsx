@@ -1,59 +1,41 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
+import { usePathname } from "next/navigation";
 import { Dash_Menus } from "@/shared/menus";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { ArrowLeftFromLine, ArrowRightFromLine } from "lucide-react";
 
 const Sidebar = () => {
   const pathname = usePathname();
-  const isActive = (path: string) => pathname === path;
-
-  const [showLabel, setShowLabel] = useState<boolean>(false);
-
-  const handleShowLabel = () => {
-    setShowLabel(!showLabel);
-  };
+  const isActive = (path: any) => pathname === path;
 
   return (
-    <div>
-      <div className={`${showLabel ? "min-w-[150px]" : "min-w-max"} py-4`}>
-        <ul className="space-y-2">
-          {showLabel ? (
-            <button
-              className="px-2 py-2 bg-white text-slate-800 rounded-full hidden sm:block"
-              onClick={handleShowLabel}
-            >
-              <ArrowLeftFromLine size={20} strokeWidth={2} />
-            </button>
-          ) : (
-            <button
-              className="px-2 py-2 bg-white text-slate-800 rounded-full hidden sm:block"
-              onClick={handleShowLabel}
-            >
-              <ArrowRightFromLine size={20} strokeWidth={2} />
-            </button>
-          )}
-          {Dash_Menus.map((menu: any, index: number) => (
-            <li
-              key={index}
-              className={`py-2 text-white rounded-lg font-semibold capitalize hover:px-2 hover:bg-white hover:text-slate-800 cursor-pointer ${
-                isActive(menu.goto) ? "bg-white text-slate-800 px-2" : ""
-              }`}
-            >
-              <Link
-                href={menu.goto}
-                className="flex items-center gap-2 h-full w-full"
-              >
-                <span className="">{menu.icon}</span>
-                <span className={`${showLabel ? "block" : "hidden"}`}>
-                  {menu.label}
-                </span>
+    <div className="p-4 space-y-4 h-screen overflow-y-auto flex flex-col justify-between">
+      <div className="space-y-4">
+        <div className="logo">
+          <h2 className="text-3xl font-bold capitalize">
+            task <sup className="text-lg font-semibold lowercase">on</sup>
+          </h2>
+        </div>
+
+        <ul className="space-y-4">
+          {Dash_Menus.map((menu, index) => (
+            <li key={index} className={isActive(menu.goto) ? "" : ""}>
+              <Link href={menu.goto} className="flex items-center gap-2">
+                <span>{menu.icon}</span>
+                <span className={`whitespace-nowrap`}>{menu.label}</span>
               </Link>
             </li>
           ))}
         </ul>
+      </div>
+      <div className="">
+        <img
+          src="/dummy-avatar.png"
+          alt="profile"
+          className="h-8 w-8 object-cover overflow-hidden rounded-full"
+        />
+        <button></button>
       </div>
     </div>
   );

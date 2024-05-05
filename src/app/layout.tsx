@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/navbar";
 import Sidebar from "@/components/sidebar";
-
-const inter = Inter({ subsets: ["latin"] });
+import Footer from "@/components/footer";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,19 +16,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={inter.className}
+        className="bg-background overflow-y-scroll"
         suppressHydrationWarning={true}
-        style={{ overflow: "hidden" }}
       >
-        <div className="container h-screen bg-slate-800">
-          <Navbar />
-          <div className="flex flex-row gap-5">
-            <div className="">
-              <Sidebar />
-            </div>
-            <div className="flex-grow h-[85vh] p-5 bg-white rounded-2xl overflow-clip">
-              {children}
-            </div>
+        <div className="flex">
+          <div className="sticky top-0 h-screen overflow-y-auto">
+            <Sidebar />
+          </div>
+          <div className="flex-1 p-4 overflow-y-auto">
+            <div className="">{children}</div>
+            {/* <Footer /> */}
           </div>
         </div>
       </body>
