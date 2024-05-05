@@ -1,3 +1,4 @@
+import PieChartComponent from "@/graphs/pieChart";
 import { Settings } from "lucide-react";
 import React from "react";
 

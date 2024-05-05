@@ -15,7 +15,7 @@ export const Dash_Menus = [
   {
     label: "Dashboard",
     icon: <LayoutDashboard size={16} />,
-    goto: "/dashboard",
+    goto: "/",
   },
   { label: "Create Task", icon: <PenSquare size={16} />, goto: "/create-task" },
   { label: "Projects", icon: <Folders size={16} />, goto: "/projects" },

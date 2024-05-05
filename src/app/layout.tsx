@@ -16,16 +16,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className="bg-background overflow-y-scroll"
+        className="bg-background overflow-y-scroll select-none"
         suppressHydrationWarning={true}
       >
-        <div className="flex">
+        <div className="flex gap-5">
           <div className="sticky top-0 h-screen overflow-y-auto">
             <Sidebar />
           </div>
-          <div className="flex-1 p-4 overflow-y-auto">
+          <div className="flex-1  overflow-y-auto">
             <div className="">{children}</div>
-            {/* <Footer /> */}
           </div>
         </div>
       </body>
