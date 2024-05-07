@@ -34,15 +34,9 @@ const userData = [
 ];
 
 const MemberList: React.FC = () => {
-  const [sortBy, setSortBy] = useState<keyof UserData | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedTeam, setSelectedTeam] = useState<string>("");
   const [selectedDesignation, setSelectedDesignation] = useState<string>("");
-
-  // handle sorting
-  const handleSort = (key: keyof UserData) => {
-    setSortBy(key === sortBy ? null : key);
-  };
 
   // handle search
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
