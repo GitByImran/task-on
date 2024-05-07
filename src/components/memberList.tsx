@@ -126,6 +126,9 @@ const MemberList: React.FC = () => {
             <th className="border border-gray-200 px-4 py-2 text-left">
               Designation
             </th>
+            <th className="border border-gray-200 px-4 py-2 text-left">
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -136,6 +139,14 @@ const MemberList: React.FC = () => {
               <td className="border border-gray-200 px-4 py-2">{user.team}</td>
               <td className="border border-gray-200 px-4 py-2">
                 {user.designation}
+              </td>
+              <td className="border border-gray-200 px-4 py-2">
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
+                  Edit
+                </button>
+                <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
