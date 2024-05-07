@@ -84,7 +84,7 @@ const Projects = () => {
           ))}
         </div>
       ) : (
-        <div>getting projects list ...</div>
+        <div>getting projects list...</div>
       )}
     </div>
   );
