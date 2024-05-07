@@ -13,7 +13,7 @@ const Projects = () => {
 
   useEffect(() => {
     const getProjects = localStorage.getItem("projects") || "";
-    setProjects(JSON.parse(getProjects));
+    setProjects(getProjects ? JSON.parse(getProjects) : "");
   }, [isClient]);
 
   console.log(projects);
