@@ -82,24 +82,20 @@
 }
 
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 2px; /* Width of the scrollbar */
+  width: 2px;
   height: 4px !important;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; /* Color of the track */
+  background: #f1f1f1;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888; /* Color of the scrollbar */
-  border-radius: 4px; /* Rounded corners */
+  background: #888;
+  border-radius: 4px;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; /* Darker color on hover */
+  background: #555;
 }
