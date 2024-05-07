@@ -245,7 +245,7 @@ const CreateTaskPage = () => {
                   </div>
                 )}
               <p className="text-sm text-muted-foreground">
-                * This preview will show how your post will look!
+                * This preview will show how task post will look like!
               </p>
             </div>
           </div>
