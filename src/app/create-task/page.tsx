@@ -1,13 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ImagePlus, PenSquare } from "lucide-react";
+import { v4 as uuidv4 } from "uuid";
 import ImageUploader from "@/components/imageUploader";
 import { Teams_List } from "@/lib/teamsList";
 
 const CreateTaskPage = () => {
   const [selectedTeams, setSelectedTeams] = useState([]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [removeSelectedFile, setRemoveSelectedFile] = useState<boolean>(false);
   const [formData, setFormData] = useState({
     title: "",
     deadline: "",
@@ -15,7 +17,6 @@ const CreateTaskPage = () => {
   });
 
   const handleImageUpload = (file: File) => {
-    // Handle image upload logic here
     console.log("Uploaded file:", file);
     setSelectedFile(file);
   };
@@ -35,6 +36,33 @@ const CreateTaskPage = () => {
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const newProject = {
+      id: uuidv4(),
+      title: formData.title,
+      deadline: formData.deadline,
+      brief: formData.brief,
+      teams: selectedTeams,
+      image: selectedFile ? URL.createObjectURL(selectedFile) : null,
+    };
+    const projects = JSON.parse(localStorage.getItem("projects") || "[]");
+    projects.push(newProject);
+    localStorage.setItem("projects", JSON.stringify(projects));
+    setFormData({
+      title: "",
+      deadline: "",
+      brief: "",
+    });
+    formRef.current?.reset();
+    console.log(formRef);
+    setSelectedTeams([]);
+    setSelectedFile(null);
+    setRemoveSelectedFile(true);
+  };
+
   const isFormFilled = () => {
     return Object.values(formData).every((value) => value.trim() !== "");
   };
@@ -47,9 +75,12 @@ const CreateTaskPage = () => {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 my-4">
         <div className="col-span-1 md:col-span-2">
-          <form className="">
+          <form ref={formRef} className="" onSubmit={handleSubmit}>
             <div className="max-w-full space-y-4">
-              <ImageUploader onImageUpload={handleImageUpload} />
+              <ImageUploader
+                onImageUpload={handleImageUpload}
+                removeSelectedFile={removeSelectedFile}
+              />
 
               <div className="flex flex-col gap-2">
                 <label htmlFor="title" className="text-sm">
@@ -60,20 +91,6 @@ const CreateTaskPage = () => {
                   id="title"
                   name="title"
                   value={formData.title}
-                  onChange={handleFormChange}
-                  className="border outline-slate-600 px-2 py-1"
-                  required={true}
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label htmlFor="deadline" className="text-sm">
-                  Set task deadline
-                </label>
-                <input
-                  type="date"
-                  id="deadline"
-                  name="deadline"
-                  value={formData.deadline}
                   onChange={handleFormChange}
                   className="border outline-slate-600 px-2 py-1"
                   required={true}
@@ -92,6 +109,20 @@ const CreateTaskPage = () => {
                   className="border outline-slate-600 px-2 py-1"
                   required={true}
                 ></textarea>
+              </div>
+              <div className="flex flex-col gap-2">
+                <label htmlFor="deadline" className="text-sm">
+                  Set task deadline
+                </label>
+                <input
+                  type="date"
+                  id="deadline"
+                  name="deadline"
+                  value={formData.deadline}
+                  onChange={handleFormChange}
+                  className="border outline-slate-600 px-2 py-1"
+                  required={true}
+                />
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-sm">Select teams to assign task</label>
@@ -113,7 +144,16 @@ const CreateTaskPage = () => {
               </div>
               <button
                 type="submit"
-                className="px-8 py-2 bg-cyan-600 hover:bg-cyan-800 text-sm capitalize text-white rounded"
+                className={`px-8 py-2 bg-cyan-600 hover:bg-cyan-800 capitalize text-white rounded ${
+                  selectedFile &&
+                  selectedTeams.length >= 1 &&
+                  formData.deadline.trim() !== "" &&
+                  formData.title.trim() !== "" &&
+                  formData.brief.trim() !== "" &&
+                  formData.brief.trim() !== ""
+                    ? "cursor-pointer"
+                    : "pointer-events-none"
+                }`}
               >
                 Submit
               </button>
@@ -137,7 +177,9 @@ const CreateTaskPage = () => {
             <div className="space-y-4 p-4">
               {formData.title.trim() !== "" ? (
                 <p className="text-sm">
-                  <span className="mr-1 font-semibold">Title :</span>
+                  <span className="mr-1 font-semibold whitespace-nowrap">
+                    Title :
+                  </span>
                   {formData.title}
                 </p>
               ) : (
@@ -145,7 +187,9 @@ const CreateTaskPage = () => {
               )}
               {formData.brief.trim() !== "" ? (
                 <p className="text-sm">
-                  <span className="mr-1 font-semibold">Brief :</span>
+                  <span className="mr-1 font-semibold whitespace-nowrap">
+                    Brief :
+                  </span>
                   {formData.brief.length > 100
                     ? `${formData.brief.slice(0, 200)}...`
                     : formData.brief}
@@ -155,15 +199,19 @@ const CreateTaskPage = () => {
               )}
               {formData.deadline.trim() !== "" ? (
                 <p className="text-sm">
-                  <span className="mr-1 font-semibold">Deadline :</span>
+                  <span className="mr-1 font-semibold whitespace-nowrap">
+                    Deadline :
+                  </span>
                   {formData.deadline}
                 </p>
               ) : (
                 <div className="h-6 bg-gray-200 rounded animate-pulse w-full"></div>
               )}
               {selectedTeams.length >= 1 ? (
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-semibold">Assign to :</span>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-sm font-semibold whitespace-nowrap">
+                    Assign to :
+                  </span>
                   {selectedTeams.map((item, index) => (
                     <p className="border px-2 py-1 text-sm" key={index}>
                       {item}
@@ -180,17 +228,18 @@ const CreateTaskPage = () => {
               )}
               {selectedFile &&
                 selectedTeams.length >= 1 &&
+                formData.deadline.trim() !== "" &&
                 formData.title.trim() !== "" &&
                 formData.brief.trim() !== "" &&
                 formData.brief.trim() !== "" && (
-                  <div className="flex items-center gap-2">
-                    <button className="px-8 py-2 bg-cyan-600 hover:bg-cyan-800 text-sm capitalize text-white rounded">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <button className="px-4 py-2 bg-cyan-600 hover:bg-cyan-800 text-sm capitalize text-white rounded">
                       Details
                     </button>
-                    <button className="px-8 py-2 bg-emerald-600 hover:bg-emerald-800 text-sm capitalize text-white rounded">
+                    <button className="px-4 py-2 bg-emerald-600 hover:bg-emerald-800 text-sm capitalize text-white rounded">
                       Accept
                     </button>
-                    <button className="px-8 py-2 bg-red-600 hover:bg-red-800 text-sm capitalize text-white rounded">
+                    <button className="px-4 py-2 bg-red-600 hover:bg-red-800 text-sm capitalize text-white rounded">
                       Deny
                     </button>
                   </div>

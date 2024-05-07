@@ -4,9 +4,13 @@ import { useDropzone } from "react-dropzone";
 
 interface ImageUploaderProps {
   onImageUpload: (file: File) => void;
+  removeSelectedFile: boolean;
 }
 
-const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload }) => {
+const ImageUploader: React.FC<ImageUploaderProps> = ({
+  onImageUpload,
+  removeSelectedFile,
+}: any) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const onDrop = useCallback(
@@ -29,7 +33,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload }) => {
             isDragActive ? "bg-gray-200" : ""
           }`}
         >
-          {selectedFile ? (
+          {selectedFile && !removeSelectedFile ? (
             <img
               src={URL.createObjectURL(selectedFile)}
               alt="Selected"
@@ -47,7 +51,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload }) => {
               </p>
             </div>
           )}
-          {selectedFile && (
+          {selectedFile && !removeSelectedFile && (
             <div className="absolute z-10 bottom-0 left-0 w-full h-40 bg-gradient-to-t from-black to-black/0 flex flex-wrap items-end justify-center p-4">
               <p className="text-xs text-white">
                 {selectedFile ? `Selected file : ${selectedFile.name}` : ""}
