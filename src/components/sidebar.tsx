@@ -4,10 +4,15 @@ import React from "react";
 import { usePathname } from "next/navigation";
 import { Dash_Menus } from "@/shared/menus";
 import Link from "next/link";
+import { Monitor, Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
 
 const Sidebar = () => {
+  const { setTheme, theme } = useTheme();
   const pathname = usePathname();
   const isActive = (path: any) => pathname === path;
+
+  console.log(theme);
 
   return (
     <div className="p-4 h-screen overflow-y-auto flex flex-col space-y-8">
@@ -34,7 +39,29 @@ const Sidebar = () => {
           alt="profile"
           className="h-8 w-8 object-cover overflow-hidden rounded-full"
         /> */}
-        <button></button>
+        <div className="flex items-center gap-2">
+          <button>
+            <Sun
+              size={30}
+              onClick={() => setTheme("light")}
+              className={`${theme === "light" && "text-cyan-500"} p-1`}
+            />
+          </button>
+          <button>
+            <Moon
+              size={30}
+              onClick={() => setTheme("dark")}
+              className={`${theme === "dark" && "text-cyan-500"} p-1`}
+            />
+          </button>
+          <button>
+            <Monitor
+              size={30}
+              onClick={() => setTheme("system")}
+              className={`p-1`}
+            />
+          </button>
+        </div>
       </div>
     </div>
   );

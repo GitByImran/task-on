@@ -69,9 +69,11 @@ const CreateTaskPage = () => {
 
   return (
     <div className="p-4">
-      <div className="flex items-center gap-2 text-lg text-slate-800">
+      <div className="flex items-center gap-2  px-3 text-lg text-accent-foreground">
         <PenSquare size={20} strokeWidth={2} />
-        <span className="text-xl font-bold">Create Task</span>
+        <span className="text-xl font-bold text-accent-foreground">
+          Create Task
+        </span>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 my-4">
         <div className="col-span-1 md:col-span-2">

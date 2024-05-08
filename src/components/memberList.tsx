@@ -32,6 +32,20 @@ const userData = [
     team: "Team C",
     designation: "Tester",
   },
+  {
+    id: 4,
+    name: "Jane Doe",
+    email: "jane@example.com",
+    team: "Team C",
+    designation: "Tester",
+  },
+  {
+    id: 5,
+    name: "Jane Doe",
+    email: "jane@example.com",
+    team: "Team C",
+    designation: "Tester",
+  },
 ];
 
 const MemberList: React.FC = () => {
@@ -80,14 +94,14 @@ const MemberList: React.FC = () => {
             placeholder="Search by name..."
             value={searchQuery}
             onChange={handleSearch}
-            className="border border-gray-300 px-4 py-2 rounded"
+            className="border border-gray-300 rounded px-2 py-1 text-sm"
           />
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <select
             value={selectedTeam}
             onChange={handleTeamChange}
-            className="border border-gray-300 px-4 py-2 rounded"
+            className="border border-gray-300 rounded px-2 py-1 text-sm"
           >
             <option value="">Select Team</option>
             {Array.from(new Set(userData.map((user) => user.team))).map(
@@ -101,7 +115,7 @@ const MemberList: React.FC = () => {
           <select
             value={selectedDesignation}
             onChange={handleDesignationChange}
-            className="border border-gray-300 px-4 py-2 rounded"
+            className="border border-gray-300 rounded px-2 py-1 text-sm"
           >
             <option value="">Select Designation</option>
             {Array.from(new Set(userData.map((user) => user.designation))).map(
@@ -114,35 +128,53 @@ const MemberList: React.FC = () => {
           </select>
         </div>
       </div>
-      <table className="w-full ">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="px-4 py-2 text-left text-sm">Name</th>
-            <th className="px-4 py-2 text-left text-sm">Email</th>
-            <th className="px-4 py-2 text-left text-sm">Team</th>
-            <th className="px-4 py-2 text-left text-sm">Designation</th>
-            <th className="px-4 py-2 text-left text-sm">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredData.map((user) => (
-            <tr key={user.id} className="hover:bg-gray-100">
-              <td className="px-4 py-2">{user.name}</td>
-              <td className="px-4 py-2">{user.email}</td>
-              <td className="px-4 py-2">{user.team}</td>
-              <td className="px-4 py-2">{user.designation}</td>
-              <td className="px-4 py-2 flex items-center gap-2">
-                <button className="">
-                  <PenSquare size={20} />
-                </button>
-                <button className="">
-                  <Trash size={20} />
-                </button>
-              </td>
+      <div className="max-h-36 overflow-y-auto">
+        <table className="w-full">
+          <thead className="sticky top-0">
+            <tr className="bg-black/30 backdrop-blur-lg">
+              <th className="font-semibold text-left text-sm py-2 px-2">
+                Name
+              </th>
+              <th className="font-semibold text-left text-sm py-2 px-2">
+                Email
+              </th>
+              <th className="font-semibold text-left text-sm py-2 px-2">
+                Team
+              </th>
+              <th className="font-semibold text-left text-sm py-2 px-2">
+                Designation
+              </th>
+              <th className="font-semibold text-left text-sm py-2 px-2">
+                Actions
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredData.length >= 1 ? (
+              filteredData.map((user) => (
+                <tr key={user.id} className="hover:bg-black/30">
+                  <td className="text-left text-sm py-2 px-2">{user.name}</td>
+                  <td className="text-left text-sm py-2 px-2">{user.email}</td>
+                  <td className="text-left text-sm py-2 px-2">{user.team}</td>
+                  <td className="text-left text-sm py-2 px-2">
+                    {user.designation}
+                  </td>
+                  <td className="flex items-center gap-2 py-2 px-2">
+                    <button className="">
+                      <PenSquare size={16} />
+                    </button>
+                    <button className="">
+                      <Trash size={16} />
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <p className="text-sm p-2">No data found!</p>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

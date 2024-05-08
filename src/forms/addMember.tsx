@@ -1,12 +1,34 @@
 import { Teams_List } from "@/lib/teamsList";
-import { UserCheck } from "lucide-react";
 import React from "react";
+
+const designations = [
+  "Frontend Developer",
+  "Backend Developer",
+  "QA Tester",
+  "QA Analyst",
+  "Data Analyst",
+  "Project Manager",
+  "Research Scientist",
+  "Cloud Architect",
+  "Security Specialist",
+];
+
+const teams = [
+  "alpha",
+  "bita",
+  "delta",
+  "thanos",
+  "zeus",
+  "themis",
+  "hydra",
+  "titans",
+];
 
 const AddMember = () => {
   return (
     <div>
       <form className="space-y-4 text-sm">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-center">
           <div className="flex flex-col gap-2">
             <label
               htmlFor="name"
@@ -51,23 +73,46 @@ const AddMember = () => {
           </div>
           <div className="flex flex-col gap-2">
             <label
-              htmlFor="assignTeam"
+              htmlFor="team"
               className="text-xs text-slate-600 font-semibold"
             >
               Assign*
             </label>
             <select
-              name="assignTeam"
-              id="assignTeam"
+              name="team"
+              id="team"
               className="border h-full p-1"
               required={true}
             >
               <option value="" className="text-muted-foreground">
                 Select a team
               </option>
-              {Teams_List.map((team: any, index: number) => (
-                <option value={team.label} key={index}>
-                  {team.label}
+              {teams.map((team: any, index: number) => (
+                <option value={team} key={index}>
+                  {team}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="flex flex-col gap-2">
+            <label
+              htmlFor="designation"
+              className="text-xs text-slate-600 font-semibold"
+            >
+              Assign*
+            </label>
+            <select
+              name="designation"
+              id="designation"
+              className="border h-full p-1"
+              required={true}
+            >
+              <option value="" className="text-muted-foreground">
+                Select a designation
+              </option>
+              {designations.map((designation: any, index: number) => (
+                <option value={designation} key={index}>
+                  {designation}
                 </option>
               ))}
             </select>

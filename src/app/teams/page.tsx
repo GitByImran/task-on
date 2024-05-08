@@ -5,9 +5,9 @@ import React from "react";
 const TeamsPage = () => {
   return (
     <div className="p-4 space-y-8">
-      <div className="flex items-center gap-2  px-3 text-lg text-slate-800">
+      <div className="flex items-center gap-2  px-3 text-lg text-accent-foreground">
         <Users size={20} strokeWidth={2} />
-        <span className="text-xl font-bold">Teams</span>
+        <span className="text-xl font-bold text-accent-foreground">Teams</span>
       </div>
       <main className="">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">

@@ -19,9 +19,11 @@ const Projects = () => {
   console.log(projects);
   return (
     <div className="p-4 space-y-8">
-      <div className="flex items-center gap-2 px-3 text-lg text-slate-800">
+      <div className="flex items-center gap-2  px-3 text-lg text-accent-foreground">
         <Folders size={20} strokeWidth={2} />
-        <span className="text-xl font-bold">Projects</span>
+        <span className="text-xl font-bold text-accent-foreground">
+          Projects
+        </span>
       </div>
       {projects ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">

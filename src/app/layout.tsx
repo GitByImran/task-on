@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Sidebar from "@/components/sidebar";
 import Footer from "@/components/footer";
+import ThemeProvider from "@/providers/themeProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,17 +17,24 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className="bg-background overflow-y-scroll select-none"
+        className="bg-background overflow-y-scroll"
         suppressHydrationWarning={true}
       >
-        <div className="flex gap-5">
-          <div className="sticky top-0 h-screen overflow-y-auto">
-            <Sidebar />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <div className="flex gap-5">
+            <div className="sticky top-0 h-screen overflow-y-auto">
+              <Sidebar />
+            </div>
+            <div className="flex-1  overflow-y-auto">
+              <div className="">{children}</div>
+            </div>
           </div>
-          <div className="flex-1  overflow-y-auto">
-            <div className="">{children}</div>
-          </div>
-        </div>
+        </ThemeProvider>
       </body>
     </html>
   );
