@@ -1,4 +1,5 @@
 "use client";
+import { PenSquare, Trash } from "lucide-react";
 import React, { useState } from "react";
 
 interface UserData {
@@ -79,17 +80,16 @@ const MemberList: React.FC = () => {
             placeholder="Search by name..."
             value={searchQuery}
             onChange={handleSearch}
-            className="border border-gray-300 px-4 py-2 rounded-md"
+            className="border border-gray-300 px-4 py-2 rounded"
           />
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <select
             value={selectedTeam}
             onChange={handleTeamChange}
-            className="border border-gray-300 px-4 py-2 rounded-md"
+            className="border border-gray-300 px-4 py-2 rounded"
           >
             <option value="">Select Team</option>
-            {/* Populate select options with unique team names */}
             {Array.from(new Set(userData.map((user) => user.team))).map(
               (team, index) => (
                 <option key={index} value={team}>
@@ -101,10 +101,9 @@ const MemberList: React.FC = () => {
           <select
             value={selectedDesignation}
             onChange={handleDesignationChange}
-            className="border border-gray-300 px-4 py-2 rounded-md"
+            className="border border-gray-300 px-4 py-2 rounded"
           >
             <option value="">Select Designation</option>
-            {/* Populate select options with unique designations */}
             {Array.from(new Set(userData.map((user) => user.designation))).map(
               (designation, index) => (
                 <option key={index} value={designation}>
@@ -115,37 +114,29 @@ const MemberList: React.FC = () => {
           </select>
         </div>
       </div>
-      <table className="w-full border-collapse border border-gray-200">
+      <table className="w-full ">
         <thead>
           <tr className="bg-gray-100">
-            <th className="border border-gray-200 px-4 py-2 text-left">Name</th>
-            <th className="border border-gray-200 px-4 py-2 text-left">
-              Email
-            </th>
-            <th className="border border-gray-200 px-4 py-2 text-left">Team</th>
-            <th className="border border-gray-200 px-4 py-2 text-left">
-              Designation
-            </th>
-            <th className="border border-gray-200 px-4 py-2 text-left">
-              Actions
-            </th>
+            <th className="px-4 py-2 text-left text-sm">Name</th>
+            <th className="px-4 py-2 text-left text-sm">Email</th>
+            <th className="px-4 py-2 text-left text-sm">Team</th>
+            <th className="px-4 py-2 text-left text-sm">Designation</th>
+            <th className="px-4 py-2 text-left text-sm">Actions</th>
           </tr>
         </thead>
         <tbody>
           {filteredData.map((user) => (
             <tr key={user.id} className="hover:bg-gray-100">
-              <td className="border border-gray-200 px-4 py-2">{user.name}</td>
-              <td className="border border-gray-200 px-4 py-2">{user.email}</td>
-              <td className="border border-gray-200 px-4 py-2">{user.team}</td>
-              <td className="border border-gray-200 px-4 py-2">
-                {user.designation}
-              </td>
-              <td className="border border-gray-200 px-4 py-2">
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
-                  Edit
+              <td className="px-4 py-2">{user.name}</td>
+              <td className="px-4 py-2">{user.email}</td>
+              <td className="px-4 py-2">{user.team}</td>
+              <td className="px-4 py-2">{user.designation}</td>
+              <td className="px-4 py-2 flex items-center gap-2">
+                <button className="">
+                  <PenSquare size={20} />
                 </button>
-                <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                  Delete
+                <button className="">
+                  <Trash size={20} />
                 </button>
               </td>
             </tr>

@@ -1,6 +1,6 @@
 "use client";
 
-import AddMember from "@/components/addMember";
+import AddMember from "@/forms/addMember";
 import MemberList from "@/components/memberList";
 import { Teams_List } from "@/lib/teamsList";
 import { ChevronDown, ChevronUp, Settings, UserCheck } from "lucide-react";

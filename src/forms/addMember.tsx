@@ -5,7 +5,7 @@ import React from "react";
 const AddMember = () => {
   return (
     <div>
-      <form className="space-y-4">
+      <form className="space-y-4 text-sm">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 items-center">
           <div className="flex flex-col gap-2">
             <label
@@ -66,7 +66,9 @@ const AddMember = () => {
                 Select a team
               </option>
               {Teams_List.map((team: any, index: number) => (
-                <option value={team.label}>{team.label}</option>
+                <option value={team.label} key={index}>
+                  {team.label}
+                </option>
               ))}
             </select>
           </div>
@@ -78,7 +80,7 @@ const AddMember = () => {
         >
           Add{" "}
           <span className="-mt-1">
-            <UserCheck size={16} strokeWidth={3} />
+            {/* <UserCheck size={16} strokeWidth={3} /> */}
           </span>
         </button>
       </form>
