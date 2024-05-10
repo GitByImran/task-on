@@ -1,25 +1,31 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import { Dash_Menus } from "@/shared/menus";
 import Link from "next/link";
 import { Monitor, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
+import ThemeToggler from "./themeToggler";
 
 const Sidebar = () => {
-  const { setTheme, theme } = useTheme();
+  const { theme } = useTheme();
+  const [showLabel, setShowLabel] = useState(true);
   const pathname = usePathname();
   const isActive = (path: any) => pathname === path;
 
-  console.log(theme);
-
   return (
     <div className="p-4 h-screen overflow-y-auto flex flex-col space-y-8">
-      <div className="logo">
-        <h2 className="text-3xl font-bold capitalize">
-          task <sup className="text-lg font-semibold lowercase">on</sup>
-        </h2>
+      <div
+        className="logo flex items-center gap-2"
+        onClick={() => setShowLabel(!showLabel)}
+      >
+        <img src="/logo.png" alt="" className="h-6 w-6" />
+        {showLabel && (
+          <h2 className="text-2xl font-bold capitalize">
+            task <sup className="text-md font-normal lowercase">on</sup>
+          </h2>
+        )}
       </div>
 
       <ul className="space-y-4">
@@ -27,41 +33,30 @@ const Sidebar = () => {
           <li key={index} className={isActive(menu.goto) ? "" : ""}>
             <Link href={menu.goto} className="flex items-center gap-2">
               <span>{menu.icon}</span>
-              <span className={`whitespace-nowrap`}>{menu.label}</span>
+              {showLabel && (
+                <span className={`whitespace-nowrap`}>{menu.label}</span>
+              )}
             </Link>
           </li>
         ))}
+        <li className="flex items-center gap-2">
+          <ThemeToggler showLabel={showLabel} />
+        </li>
       </ul>
-
-      <div className="">
-        {/* <img
+      <div className="flex items-center gap-2">
+        <img
           src="/dummy-avatar.png"
           alt="profile"
-          className="h-8 w-8 object-cover overflow-hidden rounded-full"
-        /> */}
-        <div className="flex items-center gap-2">
-          <button>
-            <Sun
-              size={30}
-              onClick={() => setTheme("light")}
-              className={`${theme === "light" && "text-cyan-500"} p-1`}
-            />
-          </button>
-          <button>
-            <Moon
-              size={30}
-              onClick={() => setTheme("dark")}
-              className={`${theme === "dark" && "text-cyan-500"} p-1`}
-            />
-          </button>
-          <button>
-            <Monitor
-              size={30}
-              onClick={() => setTheme("system")}
-              className={`p-1`}
-            />
-          </button>
-        </div>
+          className="h-6 w-6 object-cover rounded-full overflow-hidden"
+        />
+        {showLabel && (
+          <div>
+            <h2 className="text-sm font-semibold tracking-wider">
+              {"Imran Hasan Ovi"}
+            </h2>
+            <p className="text-xs">QA Analyst</p>
+          </div>
+        )}
       </div>
     </div>
   );

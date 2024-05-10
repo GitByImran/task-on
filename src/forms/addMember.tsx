@@ -2,12 +2,12 @@ import { Teams_List } from "@/lib/teamsList";
 import React from "react";
 
 const designations = [
+  "Project Manager",
   "Frontend Developer",
   "Backend Developer",
   "QA Tester",
   "QA Analyst",
   "Data Analyst",
-  "Project Manager",
   "Research Scientist",
   "Cloud Architect",
   "Security Specialist",
