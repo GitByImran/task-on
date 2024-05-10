@@ -5,8 +5,11 @@ import { ImagePlus, PenSquare } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
 import ImageUploader from "@/components/imageUploader";
 import { Teams_List } from "@/lib/teamsList";
+import uploadImageToImgBB from "@/utils/imageUploader";
+import Loader from "@/components/loader";
 
 const CreateTaskPage = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedTeams, setSelectedTeams] = useState([]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [removeSelectedFile, setRemoveSelectedFile] = useState<boolean>(false);
@@ -38,29 +41,56 @@ const CreateTaskPage = () => {
 
   const formRef = useRef<HTMLFormElement>(null);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const newProject = {
-      id: uuidv4(),
-      title: formData.title,
-      deadline: formData.deadline,
-      brief: formData.brief,
-      teams: selectedTeams,
-      image: selectedFile ? URL.createObjectURL(selectedFile) : null,
-    };
-    const projects = JSON.parse(localStorage.getItem("projects") || "[]");
-    projects.push(newProject);
-    localStorage.setItem("projects", JSON.stringify(projects));
-    setFormData({
-      title: "",
-      deadline: "",
-      brief: "",
-    });
-    formRef.current?.reset();
-    console.log(formRef);
-    setSelectedTeams([]);
-    setSelectedFile(null);
-    setRemoveSelectedFile(true);
+    setIsLoading(true);
+
+    // Upload image to ImgBB
+    try {
+      const imageURL = selectedFile
+        ? await uploadImageToImgBB(selectedFile)
+        : null;
+      if (!imageURL) {
+        throw new Error("Failed to upload image");
+      }
+
+      // Prepare task data
+      const newTask = {
+        title: formData.title,
+        deadline: formData.deadline,
+        brief: formData.brief,
+        teams: selectedTeams,
+        image: imageURL,
+      };
+
+      // Make POST request to server
+      const response = await fetch("/api/database/task", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newTask),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to create task: ${response.statusText}`);
+      }
+
+      // Reset form and state
+      setFormData({
+        title: "",
+        deadline: "",
+        brief: "",
+      });
+      formRef.current?.reset();
+      setSelectedTeams([]);
+      setSelectedFile(null);
+      setRemoveSelectedFile(true);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error:", error);
+      setIsLoading(false);
+    }
   };
 
   const isFormFilled = () => {
@@ -146,7 +176,7 @@ const CreateTaskPage = () => {
               </div>
               <button
                 type="submit"
-                className={`px-8 py-2 bg-cyan-600 hover:bg-cyan-800 capitalize text-white rounded ${
+                className={`px-4 py-2 bg-cyan-600 hover:bg-cyan-800 capitalize text-white rounded flex items-center gap-4 ${
                   selectedFile &&
                   selectedTeams.length >= 1 &&
                   formData.deadline.trim() !== "" &&
@@ -157,7 +187,7 @@ const CreateTaskPage = () => {
                     : "pointer-events-none"
                 }`}
               >
-                Submit
+                Submit {isLoading && <Loader />}
               </button>
             </div>
           </form>
@@ -258,3 +288,5 @@ const CreateTaskPage = () => {
 };
 
 export default CreateTaskPage;
+
+

@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Monitor, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import ThemeToggler from "./themeToggler";
+import Profile from "@/shared/profile";
 
 const Sidebar = () => {
   const { theme } = useTheme();
@@ -43,21 +44,7 @@ const Sidebar = () => {
           <ThemeToggler showLabel={showLabel} />
         </li>
       </ul>
-      <div className="flex items-center gap-2">
-        <img
-          src="/dummy-avatar.png"
-          alt="profile"
-          className="h-6 w-6 object-cover rounded-full overflow-hidden"
-        />
-        {showLabel && (
-          <div>
-            <h2 className="text-sm font-semibold tracking-wider">
-              {"Imran Hasan Ovi"}
-            </h2>
-            <p className="text-xs">QA Analyst</p>
-          </div>
-        )}
-      </div>
+      <Profile showLabel={showLabel} />
     </div>
   );
 };
